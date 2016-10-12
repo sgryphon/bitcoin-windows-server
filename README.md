@@ -12,11 +12,37 @@ For help, use .\BitcoinService.exe /help
 3. Copy your bitcoin.conf file into F:\Bitcoin, make sure you have set rpcuser and rpcpassword
 4. Create a directory for the service, e.g. F:\BitcoinService
 5. Copy BitcoinService.exe and BitcoinService.exe.config into F:\BitcoinService
-6. Install the service via .\BitcoinService.exe /install "-datadir=F:\Bitcoin"
+6. Install the service via .\BitcoinService.exe /install "-testnet -datadir=F:\Bitcoin"
 7. Start the service via Get-Service bitcoind | Start-Service
-8. Check you can connect to the service via RPC:
+8. Check you can connect to the service via RPC
 
-   & "C:\Program Files\Bitcoin\daemon\bitcoin-cli.exe" -rpcuser=bitcoinrpc -rpcpassword=[your_rpc_password] getinfo 
+   & "C:\Program Files\Bitcoin\daemon\bitcoin-cli.exe" -testnet -rpcuser=bitcoinrpc -rpcpassword=[your_rpc_password] getinfo 
+
+   
+## Troubleshooting
+
+### Testing
+
+If you need to test, try running bitcoind.exe directly, to test your arguments, e.g.
+
+  & "C:\Program Files\Bitcoin\daemon\bitcoind.exe" -datadir=F:\Bitcoin -testnet
+
+Open a second window to test bitcoin-cli.exe commands.
+
+If this isn't working, then it is a problem with your Bitcoin Core installation.
+
+### Security issues
+
+If the install works (writes to the log), but Start-Service fails immediately 
+(without any logging), then the service account may not have permission to write 
+to the log (the first thing it does).
+
+Check the security on the F:\BitcoinService\Logs folder; you may need to add 
+Local Service with Modify permissions.
+  
+If you still see errors, e.g. EXITED: 1 (meaning the bitcoind.exe process started 
+then exited immediately), then check the permissions on the F:\Bitcoin data directory; 
+you may need to add Local Service with Modify permissions there as well.   
 
 
 ## History
