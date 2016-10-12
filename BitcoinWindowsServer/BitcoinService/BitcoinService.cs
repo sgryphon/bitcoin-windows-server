@@ -90,6 +90,8 @@ namespace BitcoinService
             trace.TraceEvent(TraceEventType.Information, 8100, "BitcoinService Stopping");
             try
             {
+                // This no longer seems to work, due to security issues
+                // Process.Start(bitcoindPath, "stop");
                 bitcoindProcess.Kill();
                 bool exited = bitcoindProcess.WaitForExit(60000);
                 trace.TraceEvent(TraceEventType.Verbose, 0, string.Format("Bitcoin exit code: {0}", exited ? bitcoindProcess.ExitCode.ToString() : exited.ToString()));
